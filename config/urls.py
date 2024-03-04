@@ -16,30 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
-from apps.projects.views import ProjectViewset, TaskViewset, TeamViewset, ProjectImagesViewset
-from apps.users.views import UserViewset, VerificationViewset
-from rest_framework import routers
-
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
-
-
-router = routers.DefaultRouter()
-
-# routes for project model
-router.register(r'project', ProjectViewset)
-router.register(r'task', TaskViewset)
-router.register(r'team', TeamViewset)
-router.register(r'project-images', ProjectImagesViewset)
-
-# routes for user model
-router.register(r'user', UserViewset)
-router.register(r'verification', VerificationViewset)
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include(router.urls)),
+    path('projects/', include('apps.projects.urls')),
+    path('users/', include('apps.users.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),

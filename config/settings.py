@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'apps.projects.apps.ProjectsConfig',
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [

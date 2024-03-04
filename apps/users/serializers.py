@@ -5,8 +5,7 @@ from .models import User, Verification
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
-        exclude = ['is_boss']
+        exclude = ['is_boss',]
 
 
 class VerificationSerializer(serializers.ModelSerializer):

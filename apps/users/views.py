@@ -14,6 +14,5 @@ class UserViewset(viewsets.ModelViewSet):
 class VerificationViewset(viewsets.ModelViewSet):
     queryset = Verification.objects.all()
     serializer_class = VerificationSerializer
-    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
