@@ -18,13 +18,21 @@ from django.contrib import admin
 from django.urls import path, include
 
 from apps.projects.views import ProjectViewset, TaskViewset, TeamViewset, ProjectImagesViewset
+from apps.users.views import UserViewset, VerificationViewset
 from rest_framework import routers
 
 router = routers.DefaultRouter()
+
+# routes for project model
 router.register(r'project', ProjectViewset)
 router.register(r'task', TaskViewset)
 router.register(r'team', TeamViewset)
 router.register(r'project-images', ProjectImagesViewset)
+
+# routes for user model
+router.register(r'user', UserViewset)
+router.register(r'verification', VerificationViewset)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),

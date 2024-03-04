@@ -13,21 +13,32 @@ USER_LEVELS = (
     ('senior', 'Senior')
 )
 
+GENDERS = (
+    ('male', 'Male'),
+    ('female', 'Female')
+)
+
+def validate_password(value):
+        password_regex = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$'
+
+        # noinspection PyTypeChecker
+        if not re.match(password_regex, value):
+            raise ValidationError('Password must contain at least one uppercase letter, one lowercase letter, '
+                                  'one digit and be at least 8 characters long.')
 
 class User(models.Model):
     is_boss = models.BooleanField(default=False)
     firstname = models.CharField(max_length=255)
     lastname = models.CharField(max_length=255)
-    password: CharField = models.CharField(max_length=255)
-    gender = models.BooleanField(default=False)
+    password = models.CharField(max_length=255, validators = [validate_password,])
+    gender = models.CharField(choices = GENDERS, max_length = 50)
     age = models.IntegerField()
     position = models.CharField(max_length=255)
     location = models.CharField(max_length=255)  # there should be worked with GPS-system
     birth_date = models.DateField()
-    email = models.EmailField(validators=[
-        EmailValidator(message="Enter a valid email address."),
+    email = models.CharField(validators=[
         RegexValidator(regex=r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-                       message="Enter a valid email address matching the format example@example.com")], blank=True)
+                       message="Enter a valid email address matching the format example@example.com")], max_length=255 ,blank=True)
     phone_number = models.CharField(max_length=15,
                                     validators=[
                                         RegexValidator(
@@ -38,14 +49,6 @@ class User(models.Model):
     skype = models.CharField(max_length=255)
     level = models.CharField(choices=USER_LEVELS, max_length=255)
     avatar = models.ImageField(upload_to='media.avatars')
-
-    def clean(self):
-        password_regex = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
-
-        # noinspection PyTypeChecker
-        if not re.match(password_regex, self.password):
-            raise ValidationError('Password must contain at least one uppercase letter, one lowercase letter, '
-                                  'one digit, one special character, and be at least 8 characters long.')
 
     def __str__(self):
         return '%s - %s -%s' % (self.firstname, self.lastname, self.phone_number)
