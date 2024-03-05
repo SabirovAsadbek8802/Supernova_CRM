@@ -1,6 +1,5 @@
-
+from apps.users.models import CustomUser
 from django.db import models
-from apps.users.models import User
 
 PRIORITIES = (
     ('low', 'Low'),
@@ -14,7 +13,6 @@ LEVELS = (
     ('hard', 'Hard')
 )
 
-
 class Project(models.Model):
     name = models.CharField(max_length=255)
     starts_at = models.DateField()
@@ -23,8 +21,8 @@ class Project(models.Model):
     priority = models.CharField(max_length=10, choices=PRIORITIES, default='low')
     description = models.TextField()
     level = models.CharField(max_length=10, choices=LEVELS, default='easy')
-    reporter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_projects')
-    assignees = models.ManyToManyField(User, related_name='projects_assignees')
+    user = models.ForeignKey(CustomUser, on_delete = models.CASCADE)
+
 
     def __str__(self):
         return '%s - %s -%s' % (self.name, self.created_at, self.level)
@@ -47,7 +45,7 @@ class Task(models.Model):
     priority = models.CharField(max_length=10, choices=PRIORITIES, default='low')
     status = models.BooleanField(default=False)
     description = models.TextField()
-    assignees = models.ManyToManyField(User, related_name='tasks_assignees')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='user_tasks')
 
     def __str__(self):
@@ -56,7 +54,8 @@ class Task(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=255)
-    members = models.ManyToManyField(User, related_name='team_member')
+    user = models.ForeignKey(CustomUser, on_delete = models.CASCADE)
+
 
     def __str__(self):
         return self.name

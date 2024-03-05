@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'apps.projects.apps.ProjectsConfig',
     'rest_framework',
     'rest_framework_simplejwt',
-    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -132,7 +131,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.SessionAuthentication'
+        'rest_framework.authentication.SessionAuthentication',
     )
 }
 
@@ -175,3 +174,5 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
+
+AUTH_USER_MODEL = 'users.CustomUser'

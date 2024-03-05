@@ -1,11 +1,13 @@
+
+
 from rest_framework import serializers
-from .models import User, Verification
+from .models import CustomUser, Verification
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        exclude = ['is_boss',]
+        model = CustomUser
+        fields = '__all__'
 
 
 class VerificationSerializer(serializers.ModelSerializer):
