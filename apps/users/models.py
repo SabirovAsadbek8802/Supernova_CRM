@@ -4,18 +4,9 @@ from django.core.validators import EmailValidator, RegexValidator
 from django.db.models import CharField
 from rest_framework.exceptions import ValidationError
 from django.contrib.auth.models import AbstractUser
-from .choices import GenderChoices
+from .choices import GenderChoices, LevelChoices
 from .managers import CustomUserManager
 
-
-USER_LEVELS = (
-    ('intern', 'Intern'),
-    ('junior', 'Junior'),
-    ('junior++', 'Junior++'),
-    ('middle', 'Middle'),
-    ('middle++', 'Middle++'),
-    ('senior', 'Senior')
-)
 
 class CustomUser(AbstractUser):
     gender = models.SmallIntegerField(choices=GenderChoices.choices)   
@@ -31,9 +22,10 @@ class CustomUser(AbstractUser):
                                         )
                                     ], null=True)
     skype = models.CharField(max_length=255, null=True)
-    level = models.CharField(choices=USER_LEVELS, max_length=255, null=True)
+    level = models.SmallIntegerField(choices=LevelChoices.choices, null=True)
     avatar = models.ImageField(upload_to='media.avatars', null=True)
     objects = CustomUserManager()
+    
 
 
 class Verification(models.Model):

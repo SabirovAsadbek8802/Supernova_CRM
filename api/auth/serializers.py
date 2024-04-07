@@ -1,7 +1,7 @@
 
 
 from rest_framework import serializers
-from .models import CustomUser, Verification
+from apps.users.models import CustomUser, Verification
 
 
 class UserSerializer(serializers.ModelSerializer):
